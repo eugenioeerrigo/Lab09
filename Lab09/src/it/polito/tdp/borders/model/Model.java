@@ -7,6 +7,7 @@ import org.jgrapht.Graphs;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 
 import it.polito.tdp.borders.db.BordersDAO;
@@ -65,18 +66,23 @@ public class Model {
 		return c.connectedSets().size();
 	}
 
-	public Set<Country> trovaVicini(String stato) {
+	public List<Country> trovaVicini(String stato) {
 		
-		Set<Country> visitati = new HashSet<>();
+		List<Country> visitati = new ArrayList<>();
 		Country curr = null;
 		for(Country c : countries) {
-			if(c.getName().compareTo(stato)==0)
+			if(c.getName().compareTo(stato)==0) {
 				curr = c;
+				break;
+			}
 		}
 		
-		DepthFirstIterator<Country, DefaultEdge> dfv = new DepthFirstIterator<>(this.graph, curr);
-		while (dfv.hasNext())
-			visitati.add(dfv.next());
+		//List<Country> prossimi = Graphs.successorListOf(this.graph, curr);
+		BreadthFirstIterator<Country, DefaultEdge> dfv = new BreadthFirstIterator<>(this.graph, curr);
+		while (dfv.hasNext()) {
+			//if(prossimi.contains(dfv.next()))
+				visitati.add(dfv.next());
+		}
 		
 		return visitati;
 	}

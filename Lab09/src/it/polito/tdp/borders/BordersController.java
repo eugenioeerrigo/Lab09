@@ -60,11 +60,11 @@ public class BordersController {
 	
 	@FXML
 	private void doTrovaVicini(ActionEvent event) {
-		txtResult.appendText("\n-----------------------------------------------------");
-		Set<Country> vicini = model.trovaVicini(comboStato.getValue());
+		txtResult.appendText("\n-----------------------------------------------------\n");
+		List<Country> vicini = model.trovaVicini(comboStato.getValue());
 		
 		for(Country c : vicini)
-			txtResult.appendText(c.toString()+"\n");
+			txtResult.appendText(c.getName()+"\n");
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
