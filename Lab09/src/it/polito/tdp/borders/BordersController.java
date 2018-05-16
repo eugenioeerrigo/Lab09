@@ -5,11 +5,15 @@
 package it.polito.tdp.borders;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
+import it.polito.tdp.borders.model.Country;
 import it.polito.tdp.borders.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -28,9 +32,13 @@ public class BordersController {
 
 	@FXML // fx:id="txtResult"
 	private TextArea txtResult; // Value injected by FXMLLoader
+	
+	@FXML
+	private ComboBox<String> comboStato;
 
 	@FXML
 	private void doCalcolaConfini(ActionEvent event) {
+		txtResult.clear();
 		int year;
 		try {
 			year = Integer.parseInt(txtAnno.getText().trim());
@@ -41,7 +49,22 @@ public class BordersController {
 		
 		model.creaGrafo(year);
 		
+		StringBuilder res = new StringBuilder();
+		for(Country c : model.getCountries())
+			res.append("Stato: "+c.getName()+ " - Grado: " + model.degree(c)+"\n");
 		
+		txtResult.appendText(res.toString());
+		
+		txtResult.appendText("\nNumero componenti connesse: "+model.getNumberOfConnectedComponents()+"\n");
+	}
+	
+	@FXML
+	private void doTrovaVicini(ActionEvent event) {
+		txtResult.appendText("\n-----------------------------------------------------");
+		Set<Country> vicini = model.trovaVicini(comboStato.getValue());
+		
+		for(Country c : vicini)
+			txtResult.appendText(c.toString()+"\n");
 	}
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete
@@ -52,5 +75,8 @@ public class BordersController {
 
 	public void setModel(Model m) {
 		this.model = m;
+		
+		for(Country c : model.getCountries())
+			comboStato.getItems().add(c.getName());
 	}
 }

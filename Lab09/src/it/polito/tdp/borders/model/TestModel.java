@@ -14,7 +14,9 @@ public class TestModel {
 		
 		System.out.println("Creo il grafo relativo al 2000");
 		model.creaGrafo(2000);
-//		System.out.format("Numero componenti connesse: %d\n", model.getNumberOfConnectedComponents());
+		
+		System.out.println(model.getBordersConnYear());
+		System.out.format("Numero componenti connesse: %d\n", model.getNumberOfConnectedComponents());
 		
 //		Map<Country, Integer> stats = model.getCountryCounts();
 //		for (Country country : stats.keySet())
