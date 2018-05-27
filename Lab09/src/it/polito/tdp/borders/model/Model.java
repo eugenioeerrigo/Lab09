@@ -62,7 +62,7 @@ public class Model {
 
 	public int getNumberOfConnectedComponents() {
 		
-		ConnectivityInspector c = new ConnectivityInspector(graph);
+		ConnectivityInspector<Country, DefaultEdge> c = new ConnectivityInspector<>(graph);
 		return c.connectedSets().size();
 	}
 
@@ -77,12 +77,12 @@ public class Model {
 			}
 		}
 		
-		//List<Country> prossimi = Graphs.successorListOf(this.graph, curr);
 		BreadthFirstIterator<Country, DefaultEdge> dfv = new BreadthFirstIterator<>(this.graph, curr);
 		while (dfv.hasNext()) {
-			//if(prossimi.contains(dfv.next()))
 				visitati.add(dfv.next());
 		}
+		
+		visitati.remove(0);
 		
 		return visitati;
 	}
